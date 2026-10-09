@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>CIS-DF Practice Quiz — CMDB / CSDM</title>
+<style>
+  :root{
+    --sn-dark:#0f2942;
+    --sn-green:#2e7d32;
+    --sn-red:#c62828;
+    --sn-blue:#1565c0;
+    --bg:#f4f6f8;
+    --card:#ffffff;
+    --border:#e0e4e8;
+    --text:#1b2733;
+    --muted:#5b6b79;
+    --option-hover:#9fb4c7;
+    --option-selected-bg:#eaf2fb;
+    --option-correct-bg:#e9f6ea;
+    --option-incorrect-bg:#fdecea;
+    --match-item-bg:#f0f3f6;
+    --match-select-bg:#fff;
+    --feedback-right-bg:#e9f6ea;
+    --feedback-right-border:#bfe3c2;
+    --feedback-wrong-bg:#fdecea;
+    --feedback-wrong-border:#f1c2bd;
+    --analogy-bg:#fff9e8;
+    --analogy-border:#e0b93c;
+    --analogy-accent:#8a6d1a;
+    --table-head-bg:#f0f3f6;
+    --jump-bg:#eef1f4;
+    --jump-correct-bg:#dcefe0;
+    --jump-wrong-bg:#fdecea;
+    --btn-secondary-bg:#fff;
+    --btn-secondary-hover:#f0f3f6;
+  }
+  [data-theme="dark"]{
+    --sn-dark:#1e3a5f;
+    --sn-green:#4caf50;
+    --sn-red:#ef5350;
+    --sn-blue:#64b5f6;
+    --bg:#0f172a;
+    --card:#1e293b;
+    --border:#334155;
+    --text:#e2e8f0;
+    --muted:#94a3b8;
+    --option-hover:#475569;
+    --option-selected-bg:#1e3a5f;
+    --option-correct-bg:#1b3d24;
+    --option-incorrect-bg:#3d1f1f;
+    --match-item-bg:#334155;
+    --match-select-bg:#0f172a;
+    --feedback-right-bg:#1b3d24;
+    --feedback-right-border:#2e7d32;
+    --feedback-wrong-bg:#3d1f1f;
+    --feedback-wrong-border:#c62828;
+    --analogy-bg:#3d3520;
+    --analogy-border:#b8860b;
+    --analogy-accent:#d4b84a;
+    --table-head-bg:#334155;
+    --jump-bg:#334155;
+    --jump-correct-bg:#1b3d24;
+    --jump-wrong-bg:#3d1f1f;
+    --btn-secondary-bg:#334155;
+    --btn-secondary-hover:#475569;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+  .app{max-width:760px;margin:0 auto;padding:20px 16px 60px;}
+  header{
+    background:var(--sn-dark);
+    color:#fff;
+    padding:14px 16px 12px;
+    border-radius:12px;
+    margin-bottom:18px;
+  }
+  .header-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    margin-bottom:12px;
+  }
+  header h1{font-size:16px;margin:0;font-weight:600;letter-spacing:.2px;}
+  header .sub{font-size:12px;opacity:.8;margin-top:2px;}
+  .header-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    justify-content:flex-end;
+    flex:0 0 auto;
+    max-width:100%;
+  }
+  .header-bar{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    gap:12px;
+    margin-bottom:10px;
+  }
+  .timer-wrap{display:flex;justify-content:center;min-width:0;}
+  .timer-display{
+    font-size:clamp(22px,6vw,32px);
+    font-weight:700;
+    font-variant-numeric:tabular-nums;
+    letter-spacing:.08em;
+    line-height:1;
+    opacity:.95;
+  }
+  .header-stats{
+    font-size:13px;
+    text-align:right;
+    white-space:nowrap;
+  }
+  .header-stats b{font-size:15px;}
+  .progress-wrap{background:rgba(255,255,255,.15);border-radius:8px;height:8px;width:100%;overflow:hidden;}
+  .progress-bar{background:#4caf50;height:100%;width:0%;transition:width .25s;}
+  .hdr-btn{
+    background:rgba(255,255,255,.12);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:8px;
+    padding:6px 11px;
+    font-size:12px;
+    cursor:pointer;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .hdr-btn:hover{background:rgba(255,255,255,.2);}
+  .hdr-btn.primary{background:#4caf50;border-color:#4caf50;}
+  .hdr-btn.danger{background:rgba(198,40,40,.85);border-color:rgba(255,255,255,.3);}
+  .hdr-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .hidden{display:none !important;}
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:22px 22px 18px;
+    box-shadow:0 1px 3px rgba(15,41,66,.06);
+  }
+  .start-screen{text-align:center;padding:36px 20px;}
+  .start-screen p{color:var(--muted);margin:0 0 18px;line-height:1.5;}
+  .start-screen .btn-row{justify-content:center;}
+  .mode-picker{padding:20px 18px;}
+  .mode-picker h2{margin:0 0 6px;font-size:18px;}
+  .mode-picker .intro{color:var(--muted);font-size:14px;margin:0 0 16px;line-height:1.5;}
+  .mode-list{display:flex;flex-direction:column;gap:10px;}
+  .mode-item{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:var(--match-item-bg);
+  }
+  .mode-item.featured{border-color:var(--sn-blue);}
+  .mode-info{flex:1;min-width:0;text-align:left;}
+  .mode-info strong{display:block;font-size:15px;margin-bottom:2px;}
+  .mode-info .count{font-size:12px;color:var(--sn-blue);font-weight:600;}
+  .mode-info .desc{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4;}
+  .mode-item .btn-start{
+    flex:0 0 auto;background:var(--sn-dark);color:#fff;border:none;border-radius:8px;
+    padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;
+  }
+  .mode-item .btn-start:hover{opacity:.9;}
+  @media (max-width:560px){
+    .mode-item{flex-direction:column;align-items:stretch;}
+    .mode-item .btn-start{width:100%;}
+  }
+  .qmeta{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;font-weight:600;}
+  .qtext{font-size:16px;line-height:1.5;margin-bottom:16px;white-space:pre-wrap;}
+  .instruction{font-size:12px;color:var(--sn-blue);font-weight:600;margin-bottom:14px;text-transform:uppercase;letter-spacing:.4px;}
+  .option{
+    display:flex;align-items:flex-start;gap:10px;padding:12px 14px;
+    border:1.5px solid var(--border);border-radius:10px;margin-bottom:9px;
+    cursor:pointer;transition:border-color .15s,background .15s;font-size:14.5px;line-height:1.4;
+  }
+  .option:hover{border-color:var(--option-hover);}
+  .option.selected{border-color:var(--sn-blue);background:var(--option-selected-bg);}
+  .option .letter{
+    flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1.5px solid #b7c2cc;
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);
+  }
+  .option.multi .letter{border-radius:6px;}
+  .option.correct{border-color:var(--sn-green);background:var(--option-correct-bg);}
+  .option.correct .letter{background:var(--sn-green);border-color:var(--sn-green);color:#fff;}
+  .option.incorrect{border-color:var(--sn-red);background:var(--option-incorrect-bg);}
+  .option.incorrect .letter{background:var(--sn-red);border-color:var(--sn-red);color:#fff;}
+  .option.disabled{cursor:default;}
+  .match-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+  .match-row .item{flex:1 1 220px;font-size:14px;font-weight:600;background:var(--match-item-bg);border-radius:8px;padding:9px 12px;}
+  .match-row select{
+    flex:1 1 260px;padding:9px 10px;border-radius:8px;border:1.5px solid var(--border);
+    font-size:13.5px;background:var(--match-select-bg);color:var(--text);
+  }
+  .match-row.correct select{border-color:var(--sn-green);}
+  .match-row.incorrect select{border-color:var(--sn-red);}
+  .btn-row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+  button{
+    border:none;border-radius:9px;padding:11px 20px;font-size:14px;font-weight:600;
+    cursor:pointer;transition:opacity .15s,transform .05s;
+  }
+  button:active{transform:scale(.98);}
+  button:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-primary{background:var(--sn-dark);color:#fff;}
+  .btn-primary:hover:not(:disabled){opacity:.9;}
+  .btn-secondary{background:var(--btn-secondary-bg);color:var(--text);border:1.5px solid var(--border);}
+  .btn-secondary:hover:not(:disabled){background:var(--btn-secondary-hover);}
+  .btn-danger{background:var(--sn-red);color:#fff;}
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:10px;font-size:14px;line-height:1.55;}
+  .feedback.right{background:var(--feedback-right-bg);border:1px solid var(--feedback-right-border);}
+  .feedback.wrong{background:var(--feedback-wrong-bg);border:1px solid var(--feedback-wrong-border);}
+  .feedback .verdict{font-weight:700;margin-bottom:6px;font-size:14px;}
+  .feedback .verdict.right-text{color:var(--sn-green);}
+  .feedback .verdict.wrong-text{color:var(--sn-red);}
+  .analogy{
+    margin-top:10px;padding:10px 12px;background:var(--analogy-bg);
+    border-left:3px solid var(--analogy-border);border-radius:6px;font-size:13.5px;font-style:italic;
+  }
+  .analogy b{font-style:normal;color:var(--analogy-accent);}
+  .results{text-align:center;padding:24px 10px;}
+  .results h2{margin-top:0;font-size:22px;}
+  .score-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 20px;
+  }
+  .score-box{
+    border:1px solid var(--border);border-radius:12px;padding:16px 10px;background:var(--match-item-bg);
+  }
+  .score-box .pct{font-size:28px;font-weight:700;color:var(--sn-dark);}
+  [data-theme="dark"] .score-box .pct{color:var(--sn-blue);}
+  .score-box .lbl{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.35;}
+  .report-meta{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;}
+  .review-item{
+    text-align:left;border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:13.5px;
+  }
+  .review-item.bad{border-left:4px solid var(--sn-red);}
+  .review-item .qn{font-weight:700;margin-bottom:4px;}
+  .review-item .ans{font-size:12px;color:var(--muted);margin-top:6px;}
+  .history-item{
+    border-bottom:1px solid var(--border);padding:12px 0;font-size:13px;line-height:1.5;
+  }
+  .history-item:last-child{border-bottom:none;}
+  .history-empty{color:var(--muted);font-style:italic;}
+  select:disabled{opacity:.85;}
+  .jump{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+  .jump button{padding:6px 9px;font-size:11.5px;border-radius:7px;background:var(--jump-bg);color:var(--text);border:1px solid transparent;font-weight:600;}
+  .jump button.correct{background:var(--sn-green);color:#fff;border-color:var(--sn-green);}
+  .jump button.wrong{background:var(--sn-red);color:#fff;border-color:var(--sn-red);}
+  .jump button.current{background:var(--sn-dark);color:#fff;border-color:var(--sn-dark);box-shadow:0 0 0 2px rgba(255,255,255,.35);}
+  .load-error{padding:16px;line-height:1.6;}
+  .load-error code{background:var(--match-item-bg);padding:2px 6px;border-radius:4px;font-size:13px;}
+  .locked-note{
+    margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--match-item-bg);
+    font-size:13px;color:var(--muted);text-align:center;
+  }
+  @media (max-width:560px){
+    .header-top{flex-direction:column;align-items:stretch;}
+    .header-actions{justify-content:flex-end;}
+    .header-bar{grid-template-columns:1fr;text-align:center;}
+    .header-stats{text-align:center;}
+    .score-grid{grid-template-columns:1fr;}
+    .hdr-btn{font-size:11px;padding:6px 9px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="header-top">
+      <div>
+        <h1>CIS-DF Practice Quiz</h1>
+        <div class="sub">CMDB &amp; CSDM</div>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="hdr-btn primary" id="startTestBtn" onclick="showIdleScreen()">Iniciar teste</button>
+        <button type="button" class="hdr-btn danger hidden" id="stopTestBtn" onclick="stopTest()">Parar teste</button>
+        <button type="button" class="hdr-btn hidden" id="reportBtn" onclick="generateReport()">Gerar relatório</button>
+        <button type="button" class="hdr-btn hidden" id="retryWrongBtn" onclick="retryWrongOnly()">Só erradas</button>
+        <button type="button" class="hdr-btn hidden" id="historyBtn" onclick="showHistory()">Histórico</button>
+        <button type="button" class="hdr-btn" id="themeToggle" onclick="toggleTheme()" title="Alternar tema">🌙 Escuro</button>
+      </div>
+    </div>
+    <div class="header-bar">
+      <div class="timer-wrap">
+        <div class="timer-display" id="timerDisplay">00:00:00</div>
+      </div>
+      <div class="header-stats">
+        <span>Q <b id="qNumLabel">0</b>/<b id="qTotalLabel">0</b></span>
+        &nbsp;·&nbsp;
+        <span>Score <b id="scoreLabel">0</b></span>
+      </div>
+    </div>
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  </header>
+
+  <div id="quizArea"></div>
+  <div id="resultsArea" style="display:none;"></div>
+</div>
+
+<script>
+const HISTORY_KEY = 'cisdf_quiz_history_v2';
+const SESSION_KEY = 'cisdf_session_v1';
+const MAX_HISTORY = 15;
+const SESSION_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+
+let questionBank = [];
+let quizConfigs = [];
+let questions = [];
+let current = 0;
+let score = 0;
+let answered = [];
+let correctFlags = [];
+let selections = [];
+
+let sessionState = 'idle'; // idle | running | stopped | finished
+let sessionMode = 'full'; // full | wrong-only
+let timerInterval = null;
+let timerStartedAt = null;
+let timerElapsedMs = 0;
+let historySaved = false;
+
+const quizArea = document.getElementById('quizArea');
+const resultsArea = document.getElementById('resultsArea');
+
+async function loadQuestions(){
+  try {
+    const res = await fetch('questions.json');
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    questionBank = data.questions || [];
+    validateFullQuestionBank();
+    await loadQuizConfigs();
+    if(data.meta){
+      document.title = data.meta.title + ' — CMDB / CSDM';
+      document.querySelector('header h1').textContent = data.meta.title;
+      const sub = document.querySelector('header .sub');
+      if(sub) sub.textContent = data.meta.subtitle || 'CMDB & CSDM';
+    }
+    const saved = readSavedSession();
+    if(saved) showResumePrompt(saved);
+    else showIdleScreen();
+    updateHeaderControls();
+  } catch(e){
+    quizArea.innerHTML = '<div class="card load-error"><p><strong>Não foi possível carregar os dados do quiz.</strong></p><p>' + escapeHtml(e.message || String(e)) + '</p><p>Abra o quiz via servidor local:</p><p><code>python3 -m http.server</code></p></div>';
+  }
+}
+
+function validateFullQuestionBank(){
+  const ids = questionBank.map(q=>q.id);
+  const unique = new Set(ids);
+  if(ids.length !== unique.size){
+    throw new Error('Banco principal contém IDs duplicados.');
+  }
+}
+
+async function loadQuizConfigs(){
+  const files = ['quiz-30','quiz-40','quiz-50','quiz-75'];
+  const bankIds = new Set(questionBank.map(q=>q.id));
+  quizConfigs = [];
+  for(const file of files){
+    const res = await fetch('src/data/quizzes/' + file + '.json');
+    if(!res.ok) throw new Error('Não foi possível carregar ' + file + '.json');
+    const cfg = await res.json();
+    validateQuizConfig(cfg, bankIds);
+    quizConfigs.push(cfg);
+  }
+}
+
+function validateQuizConfig(cfg, bankIds){
+  if(!cfg || !cfg.id || !cfg.title || !Array.isArray(cfg.questionIds)){
+    throw new Error('Configuração inválida: ' + (cfg && cfg.id ? cfg.id : 'desconhecido'));
+  }
+  const unique = new Set(cfg.questionIds);
+  if(unique.size !== cfg.questionIds.length){
+    throw new Error(cfg.id + ' contém IDs duplicados.');
+  }
+  const missing = cfg.questionIds.filter(id=>!bankIds.has(id));
+  if(missing.length){
+    throw new Error(cfg.id + ' referencia IDs inexistentes: ' + missing.slice(0,3).join(', '));
+  }
+  if(cfg.questionCount && cfg.questionCount !== cfg.questionIds.length){
+    throw new Error(cfg.id + ' tem questionCount inconsistente.');
+  }
+}
+
+function getModeLabel(){
+  if(sessionMode === 'wrong-only') return 'Só erradas';
+  if(sessionMode === 'full') return 'Quiz Completo';
+  const cfg = quizConfigs.find(c=>c.id === sessionMode);
+  return cfg ? cfg.title : sessionMode;
+}
+
+function buildModePickerHtml(){
+  let html = `
+    <div class="card mode-picker">
+      <h2>Escolha o modo de quiz</h2>
+      <p class="intro">Selecione qual conjunto de questões deseja praticar. Nos modos parciais, as questões são sempre as mesmas; apenas a ordem muda a cada tentativa.</p>
+      <div class="mode-list">
+        <div class="mode-item featured">
+          <div class="mode-info">
+            <strong>Quiz Completo</strong>
+            <span class="count">${questionBank.length} questões</span>
+            <div class="desc">Todas as questões do banco. Ordem aleatória a cada tentativa.</div>
+          </div>
+          <button type="button" class="btn-start" onclick="startTestFromConfig('full')">Iniciar</button>
+        </div>`;
+  quizConfigs.forEach(cfg=>{
+    html += `
+        <div class="mode-item">
+          <div class="mode-info">
+            <strong>${escapeHtml(cfg.title)}</strong>
+            <span class="count">${cfg.questionIds.length} questões</span>
+            <div class="desc">${escapeHtml(cfg.description || '')}</div>
+          </div>
+          <button type="button" class="btn-start" onclick="startTestFromConfig('${escapeAttr(cfg.id)}')">Iniciar</button>
+        </div>`;
+  });
+  html += `
+      </div>
+      <div class="btn-row" style="margin-top:16px;">
+        <button class="btn-secondary" onclick="showHistory()">Ver histórico</button>
+      </div>
+    </div>`;
+  return html;
+}
+
+function showIdleScreen(){
+  sessionState = 'idle';
+  historySaved = false;
+  clearSession();
+  stopTimer();
+  timerElapsedMs = 0;
+  updateTimerDisplay();
+  quizArea.style.display = 'block';
+  resultsArea.style.display = 'none';
+  quizArea.innerHTML = buildModePickerHtml();
+  document.getElementById('qNumLabel').textContent = '0';
+  document.getElementById('qTotalLabel').textContent = questionBank.length;
+  document.getElementById('scoreLabel').textContent = '0';
+  document.getElementById('progressBar').style.width = '0%';
+}
+
+function startTestFromConfig(configId){
+  if(configId === 'full'){
+    startTest('full');
+    return;
+  }
+  const cfg = quizConfigs.find(c=>c.id === configId);
+  if(!cfg) return;
+  const bankMap = new Map(questionBank.map(q=>[q.id, q]));
+  const questionList = cfg.questionIds.map(id=>bankMap.get(id));
+  startTest(configId, questionList);
+}
+
+function startTest(mode, questionList){
+  if(!questionBank.length) return;
+  stopTimer();
+  sessionState = 'running';
+  sessionMode = mode || 'full';
+  historySaved = false;
+
+  if(questionList && questionList.length){
+    questions = shuffle(questionList.slice());
+  } else {
+    questions = shuffle(questionBank.slice());
+    if(questions.length !== questionBank.length){
+      console.error('Quiz Completo: contagem inesperada', questions.length, questionBank.length);
+    }
+  }
+
+  current = 0;
+  score = 0;
+  answered = new Array(questions.length).fill(false);
+  correctFlags = new Array(questions.length).fill(false);
+  selections = new Array(questions.length).fill(null);
+  timerStartedAt = Date.now();
+  timerElapsedMs = 0;
+  startTimer();
+
+  quizArea.style.display = 'block';
+  resultsArea.style.display = 'none';
+  document.getElementById('qTotalLabel').textContent = questions.length;
+  updateHeaderControls();
+  goTo(0);
+  saveSession();
+}
+
+function getCurrentElapsedMs(){
+  if(sessionState === 'running' && timerStartedAt){
+    return Date.now() - timerStartedAt;
+  }
+  return timerElapsedMs;
+}
+
+function saveSession(){
+  if(sessionState !== 'running' || !questions.length) return;
+  try {
+    const data = {
+      version: 1,
+      savedAt: Date.now(),
+      sessionState: 'running',
+      sessionMode,
+      timerElapsedMs: getCurrentElapsedMs(),
+      current,
+      score,
+      questionIds: questions.map(q=>q.id),
+      answered,
+      correctFlags,
+      selections,
+      historySaved
+    };
+    localStorage.setItem(SESSION_KEY, JSON.stringify(data));
+  } catch(e){ /* storage full or private mode */ }
+}
+
+function clearSession(){
+  localStorage.removeItem(SESSION_KEY);
+}
+
+function readSavedSession(){
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if(!raw) return null;
+    const data = JSON.parse(raw);
+    if(!data || data.version !== 1 || data.sessionState !== 'running') return null;
+    if(Date.now() - data.savedAt > SESSION_MAX_AGE_MS){
+      clearSession();
+      return null;
+    }
+    if(!Array.isArray(data.questionIds) || !data.questionIds.length) return null;
+    const bankIds = new Set(questionBank.map(q=>q.id));
+    if(!data.questionIds.every(id=>bankIds.has(id))){
+      clearSession();
+      return null;
+    }
+    const n = data.questionIds.length;
+    if(data.answered.length !== n || data.correctFlags.length !== n || data.selections.length !== n){
+      clearSession();
+      return null;
+    }
+    return data;
+  } catch(e){
+    clearSession();
+    return null;
+  }
+}
+
+function showResumePrompt(saved){
+  sessionState = 'idle';
+  stopTimer();
+  const awayMs = Date.now() - saved.savedAt;
+  const totalMs = saved.timerElapsedMs + awayMs;
+  const answeredCount = saved.answered.filter(Boolean).length;
+  quizArea.style.display = 'block';
+  resultsArea.style.display = 'none';
+  quizArea.innerHTML = `
+    <div class="card start-screen">
+      <h2 style="margin-top:0;font-size:18px;">Teste em andamento</h2>
+      <p style="color:var(--muted);line-height:1.6;">
+        Salvo em ${new Date(saved.savedAt).toLocaleString('pt-BR')}<br>
+        Modo: <strong>${escapeHtml(saved.sessionMode === 'full' ? 'Quiz Completo' : (quizConfigs.find(c=>c.id===saved.sessionMode)?.title || saved.sessionMode))}</strong><br>
+        Questão <strong>${saved.current + 1}</strong> / ${saved.questionIds.length}<br>
+        Respondidas: <strong>${answeredCount}</strong> · Acertos: <strong>${saved.score}</strong><br>
+        Tempo: <strong>${formatDuration(totalMs)}</strong>
+      </p>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn-primary" onclick="restoreSession()">Continuar teste</button>
+        <button class="btn-secondary" onclick="discardSavedSession()">Descartar e começar novo</button>
+      </div>
+    </div>`;
+  document.getElementById('qNumLabel').textContent = saved.current + 1;
+  document.getElementById('qTotalLabel').textContent = saved.questionIds.length;
+  document.getElementById('scoreLabel').textContent = saved.score;
+  document.getElementById('progressBar').style.width = saved.questionIds.length
+    ? Math.round((answeredCount / saved.questionIds.length) * 100) + '%'
+    : '0%';
+  window.__pendingSession = saved;
+}
+
+function restoreSession(){
+  const saved = window.__pendingSession || readSavedSession();
+  if(!saved) { showIdleScreen(); updateHeaderControls(); return; }
+  window.__pendingSession = null;
+
+  const bankMap = new Map(questionBank.map(q=>[q.id, q]));
+  questions = saved.questionIds.map(id=>bankMap.get(id));
+  sessionState = 'running';
+  sessionMode = saved.sessionMode || 'full';
+  historySaved = !!saved.historySaved;
+  current = saved.current;
+  score = saved.score;
+  answered = saved.answered.slice();
+  correctFlags = saved.correctFlags.slice();
+  selections = saved.selections.slice();
+
+  const awayMs = Date.now() - saved.savedAt;
+  const totalElapsed = saved.timerElapsedMs + awayMs;
+  timerStartedAt = Date.now() - totalElapsed;
+  timerElapsedMs = totalElapsed;
+  startTimer();
+
+  quizArea.style.display = 'block';
+  resultsArea.style.display = 'none';
+  document.getElementById('qTotalLabel').textContent = questions.length;
+  updateHeaderControls();
+  goTo(current);
+  saveSession();
+}
+
+function discardSavedSession(){
+  window.__pendingSession = null;
+  clearSession();
+  showIdleScreen();
+  updateHeaderControls();
+}
+
+function retryWrongOnly(){
+  const wrongQs = questions.filter((q,i)=> answered[i] && !correctFlags[i]);
+  if(!wrongQs.length){
+    alert('Nenhuma questão errada para refazer.');
+    return;
+  }
+  startTest('wrong-only', wrongQs);
+}
+
+function stopTest(){
+  if(sessionState !== 'running') return;
+  if(!confirm('Encerrar o teste agora?')) return;
+  stopTimer();
+  sessionState = 'stopped';
+  clearSession();
+  saveAttemptHistory();
+  updateHeaderControls();
+  showPostTestNotice('Teste encerrado. Gere o relatório para ver o desempenho.');
+}
+
+function finishTestNaturally(){
+  if(sessionState !== 'running') return;
+  stopTimer();
+  sessionState = 'finished';
+  clearSession();
+  saveAttemptHistory();
+  updateHeaderControls();
+  showPostTestNotice('Teste concluído! Gere o relatório para ver o desempenho.');
+}
+
+function showPostTestNotice(message){
+  quizArea.style.display = 'block';
+  resultsArea.style.display = 'none';
+  const stats = computeStats();
+  quizArea.innerHTML = `
+    <div class="card start-screen">
+      <p>${escapeHtml(message)}</p>
+      <p style="color:var(--muted);font-size:14px;">
+        Tempo: <strong>${formatDuration(timerElapsedMs)}</strong><br>
+        Respondidas: <strong>${stats.answeredCount}</strong> / ${stats.total}<br>
+        Acertos: <strong>${stats.score}</strong>
+      </p>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn-primary" onclick="generateReport()">Gerar relatório</button>
+        ${stats.wrongItems.length ? '<button class="btn-secondary" onclick="retryWrongOnly()">Só erradas</button>' : ''}
+        <button class="btn-secondary" onclick="showIdleScreen(); updateHeaderControls();">Novo teste</button>
+      </div>
+    </div>`;
+}
+
+function computeStats(){
+  const total = questions.length;
+  const answeredCount = answered.filter(Boolean).length;
+  const wrongItems = [];
+  questions.forEach((q,i)=>{
+    if(answered[i] && !correctFlags[i]){
+      wrongItems.push({q,i,selection:selections[i]});
+    }
+  });
+  const pctAnswered = answeredCount > 0 ? Math.round((score / answeredCount) * 100) : 0;
+  const pctTotal = total > 0 ? Math.round((score / total) * 100) : 0;
+  return {total, answeredCount, score, wrongItems, pctAnswered, pctTotal};
+}
+
+function generateReport(){
+  if(sessionState !== 'stopped' && sessionState !== 'finished') return;
+  if(!historySaved) saveAttemptHistory();
+
+  const stats = computeStats();
+  quizArea.style.display = 'none';
+  resultsArea.style.display = 'block';
+
+  let wrongHtml = '';
+  if(!stats.wrongItems.length){
+    wrongHtml = '<p style="color:var(--sn-green);font-weight:600;">Nenhuma questão errada entre as respondidas.</p>';
+  } else {
+    stats.wrongItems.forEach(({q,i,selection})=>{
+      wrongHtml += `<div class="review-item bad">
+        <div class="qn">Questão ${i+1}</div>
+        <div>${escapeHtml(q.text.split('\n')[0])}</div>
+        <div class="ans">${escapeHtml(formatUserAnswer(q, selection))}</div>
+      </div>`;
+    });
+  }
+
+  resultsArea.innerHTML = `
+    <div class="card results">
+      <h2>Relatório do teste</h2>
+      <div class="report-meta">
+        ${new Date().toLocaleString('pt-BR')} · Tempo: ${formatDuration(timerElapsedMs)}<br>
+        Modo: ${escapeHtml(getModeLabel())} ·
+        Respondidas: ${stats.answeredCount} / ${stats.total} · Acertos: ${stats.score}
+      </div>
+      <div class="score-grid">
+        <div class="score-box">
+          <div class="pct">${stats.pctAnswered}%</div>
+          <div class="lbl">Das questões respondidas<br>${stats.score} / ${stats.answeredCount} acertos</div>
+        </div>
+        <div class="score-box">
+          <div class="pct">${stats.pctTotal}%</div>
+          <div class="lbl">De todas as questões<br>${stats.score} / ${stats.total} acertos</div>
+        </div>
+      </div>
+      <div class="btn-row" style="justify-content:center;margin-bottom:20px;">
+        ${stats.wrongItems.length ? '<button class="btn-primary" onclick="retryWrongOnly()">Refazer só erradas</button>' : ''}
+        <button class="btn-secondary" onclick="window.print()">Imprimir</button>
+        <button class="btn-secondary" onclick="showIdleScreen(); updateHeaderControls();">Novo teste</button>
+      </div>
+      <h3 style="text-align:left;font-size:16px;margin-bottom:10px;">Questões erradas (${stats.wrongItems.length})</h3>
+      <div style="text-align:left;">${wrongHtml}</div>
+    </div>`;
+
+  updateHeaderControls();
+}
+
+function formatUserAnswer(q, selection){
+  if(!selection) return 'Sem resposta registrada.';
+  if(q.type === 'match'){
+    return 'Respostas de matching incorretas.';
+  }
+  const labels = selection.map(l=>{
+    const opt = q.options.find(o=>o.l === l);
+    return opt ? (l + '. ' + opt.t) : l;
+  });
+  const correctText = q.options.filter(o=>q.correct.includes(o.l)).map(o=>o.l+'. '+o.t).join(' | ');
+  return 'Sua resposta: ' + labels.join(' | ') + ' · Correta: ' + correctText;
+}
+
+function saveAttemptHistory(){
+  if(historySaved || (sessionState !== 'stopped' && sessionState !== 'finished')) return;
+  const stats = computeStats();
+  const entry = {
+    ts: Date.now(),
+    durationMs: timerElapsedMs,
+    mode: sessionMode,
+    state: sessionState,
+    total: stats.total,
+    answered: stats.answeredCount,
+    score: stats.score,
+    pctAnswered: stats.pctAnswered,
+    pctTotal: stats.pctTotal,
+    wrongIds: stats.wrongItems.map(x=>x.q.id)
+  };
+  let hist = getHistory();
+  hist.unshift(entry);
+  if(hist.length > MAX_HISTORY) hist = hist.slice(0, MAX_HISTORY);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(hist));
+  historySaved = true;
+}
+
+function getHistory(){
+  try{
+    const raw = localStorage.getItem(HISTORY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+
+function showHistory(){
+  const hist = getHistory();
+  quizArea.style.display = 'block';
+  resultsArea.style.display = 'none';
+
+  let listHtml = '';
+  if(!hist.length){
+    listHtml = '<div class="history-empty">Nenhuma tentativa registrada ainda.</div>';
+  } else {
+    hist.forEach((a,i)=>{
+      const date = new Date(a.ts).toLocaleString('pt-BR');
+      listHtml += `<div class="history-item">
+        <strong>#${i+1}</strong> · ${date}<br>
+        Tempo: ${formatDuration(a.durationMs)} ·
+        ${escapeHtml(a.mode === 'wrong-only' ? 'Só erradas' : (a.mode === 'full' ? 'Quiz Completo' : (quizConfigs.find(c=>c.id===a.mode)?.title || a.mode)))} ·
+        ${a.score}/${a.total} acertos<br>
+        <strong>${a.pctAnswered}%</strong> das respondidas ·
+        <strong>${a.pctTotal}%</strong> do total ·
+        ${a.wrongIds.length} errada(s)
+      </div>`;
+    });
+  }
+
+  quizArea.innerHTML = `
+    <div class="card">
+      <h2 style="margin-top:0;font-size:18px;">Histórico (últimas ${MAX_HISTORY})</h2>
+      ${listHtml}
+      <div class="btn-row" style="margin-top:16px;">
+        <button class="btn-secondary" onclick="showIdleScreen(); updateHeaderControls();">Voltar</button>
+        ${hist.length ? '<button class="btn-danger" onclick="clearHistory()">Limpar histórico</button>' : ''}
+      </div>
+    </div>`;
+}
+
+function clearHistory(){
+  if(!confirm('Limpar todo o histórico?')) return;
+  localStorage.removeItem(HISTORY_KEY);
+  showHistory();
+}
+
+function startTimer(){
+  if(timerInterval){
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  updateTimerDisplay();
+  timerInterval = setInterval(()=>{
+    if(!timerStartedAt) return;
+    timerElapsedMs = Date.now() - timerStartedAt;
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function stopTimer(){
+  if(timerInterval){
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  if(timerStartedAt){
+    timerElapsedMs = Date.now() - timerStartedAt;
+    timerStartedAt = null;
+  }
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay(){
+  document.getElementById('timerDisplay').textContent = formatDuration(timerElapsedMs);
+}
+
+function formatDuration(ms){
+  if(!Number.isFinite(ms) || ms < 0) ms = 0;
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return String(hours).padStart(2,'0') + ':' +
+         String(minutes).padStart(2,'0') + ':' +
+         String(seconds).padStart(2,'0');
+}
+
+function updateHeaderControls(){
+  const running = sessionState === 'running';
+  const postTest = sessionState === 'stopped' || sessionState === 'finished';
+  const stats = postTest || running ? computeStats() : {wrongItems:[]};
+
+  document.getElementById('startTestBtn').classList.toggle('hidden', running || postTest);
+  document.getElementById('stopTestBtn').classList.toggle('hidden', !running);
+  document.getElementById('reportBtn').classList.toggle('hidden', !postTest);
+  document.getElementById('retryWrongBtn').classList.toggle('hidden', !postTest || !stats.wrongItems.length);
+  document.getElementById('historyBtn').classList.toggle('hidden', running);
+}
+
+function initTheme(){
+  const saved = localStorage.getItem('cisdf-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
+  updateThemeButton();
+}
+
+function toggleTheme(){
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('cisdf-theme', next);
+  updateThemeButton();
+}
+
+function updateThemeButton(){
+  const btn = document.getElementById('themeToggle');
+  if(!btn) return;
+  btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️ Claro' : '🌙 Escuro';
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function isSessionLocked(){
+  return sessionState === 'stopped' || sessionState === 'finished';
+}
+
+function renderQuestion(idx){
+  if(isSessionLocked()) return;
+
+  const q = questions[idx];
+  document.getElementById('qNumLabel').textContent = idx+1;
+  document.getElementById('scoreLabel').textContent = score;
+  updateProgressBar();
+
+  let html = '<div class="card">';
+  html += `<div class="qmeta">Question ${idx+1} of ${questions.length}${sessionMode === 'wrong-only' ? ' · só erradas' : ''}${q.type==='multi' ? ' · select ' + q.correct.length + ' options' : ''}${q.type==='match' ? ' · matching' : ''}</div>`;
+  html += `<div class="qtext">${escapeHtml(q.text)}</div>`;
+
+  if(q.type==='single'){
+    html += '<div class="instruction">Choose 1 option</div>';
+    q.options.forEach(opt=>{
+      html += `<div class="option" data-letter="${opt.l}" onclick="selectSingle(${idx},'${opt.l}')">
+        <div class="letter">${opt.l}</div><div>${escapeHtml(opt.t)}</div></div>`;
+    });
+  } else if(q.type==='multi'){
+    html += `<div class="instruction">Choose ${q.correct.length} options</div>`;
+    q.options.forEach(opt=>{
+      html += `<div class="option multi" data-letter="${opt.l}" onclick="selectMulti(${idx},'${opt.l}')">
+        <div class="letter">${opt.l}</div><div>${escapeHtml(opt.t)}</div></div>`;
+    });
+  } else if(q.type==='match'){
+    html += '<div class="instruction">Match each item to its description</div>';
+    const allDescs = shuffle(q.pairs.map(p=>p.desc).concat(q.distractors||[]));
+    if(!selections[idx]) selections[idx] = new Array(q.pairs.length).fill('');
+    q.pairs.forEach((p, pi)=>{
+      html += `<div class="match-row" id="row-${idx}-${pi}"><div class="item">${escapeHtml(p.item)}</div>
+        <select id="sel-${idx}-${pi}" onchange="selectMatch(${idx},${pi},this.value)">
+          <option value="">-- choose a description --</option>`;
+      allDescs.forEach(d=>{
+        const chosen = selections[idx][pi]===d ? 'selected' : '';
+        html += `<option value="${escapeAttr(d)}" ${chosen}>${escapeHtml(d)}</option>`;
+      });
+      html += `</select></div>`;
+    });
+  }
+
+  html += '<div id="feedbackArea"></div>';
+  html += '<div class="btn-row">';
+  if(!answered[idx]){
+    html += `<button class="btn-primary" id="submitBtn" onclick="submitAnswer(${idx})" disabled>Check answer</button>`;
+  } else if(idx < questions.length-1){
+    html += `<button class="btn-primary" onclick="goTo(${idx+1})">Next question →</button>`;
+  } else {
+    html += `<button class="btn-primary" onclick="finishTestNaturally()">Concluir teste</button>`;
+  }
+  if(idx>0){
+    html += `<button class="btn-secondary" onclick="goTo(${idx-1})">← Back</button>`;
+  }
+  html += '</div>';
+
+  html += '<div class="jump">';
+  for(let i=0;i<questions.length;i++){
+    let cls = '';
+    if(i===idx) cls='current';
+    else if(answered[i]) cls = correctFlags[i] ? 'correct' : 'wrong';
+    html += `<button class="${cls}" onclick="goTo(${i})">${i+1}</button>`;
+  }
+  html += '</div></div>';
+
+  quizArea.innerHTML = html;
+
+  if(answered[idx]){
+    renderFeedback(idx);
+    lockOptions(idx);
+  } else {
+    restorePendingSelection(idx);
+  }
+}
+
+function restorePendingSelection(idx){
+  const q = questions[idx];
+  const sel = selections[idx];
+  if(!sel) return;
+  const submitBtn = document.getElementById('submitBtn');
+  if(q.type === 'single'){
+    if(sel[0]){
+      const el = document.querySelector(`#quizArea .option[data-letter="${sel[0]}"]`);
+      if(el) el.classList.add('selected');
+      if(submitBtn) submitBtn.disabled = false;
+    }
+  } else if(q.type === 'multi'){
+    sel.forEach(letter=>{
+      const el = document.querySelector(`#quizArea .option[data-letter="${letter}"]`);
+      if(el) el.classList.add('selected');
+    });
+    if(submitBtn) submitBtn.disabled = sel.length !== q.correct.length;
+  } else if(q.type === 'match'){
+    const allFilled = sel.every(v=>v && v.length>0);
+    if(submitBtn) submitBtn.disabled = !allFilled;
+  }
+}
+
+function updateProgressBar(){
+  const doneCount = answered.filter(Boolean).length;
+  document.getElementById('progressBar').style.width = questions.length
+    ? Math.round((doneCount / questions.length) * 100) + '%'
+    : '0%';
+}
+
+function selectSingle(idx, letter){
+  if(answered[idx] || isSessionLocked()) return;
+  selections[idx] = [letter];
+  document.querySelectorAll('#quizArea .option').forEach(el=>el.classList.remove('selected'));
+  document.querySelector(`#quizArea .option[data-letter="${letter}"]`).classList.add('selected');
+  document.getElementById('submitBtn').disabled = false;
+  saveSession();
+}
+
+function selectMulti(idx, letter){
+  if(answered[idx] || isSessionLocked()) return;
+  const q = questions[idx];
+  if(!selections[idx]) selections[idx] = [];
+  const pos = selections[idx].indexOf(letter);
+  const el = document.querySelector(`#quizArea .option[data-letter="${letter}"]`);
+  if(pos>=0){
+    selections[idx].splice(pos,1);
+    el.classList.remove('selected');
+  } else {
+    if(selections[idx].length >= q.correct.length){
+      const oldest = selections[idx].shift();
+      const oldEl = document.querySelector(`#quizArea .option[data-letter="${oldest}"]`);
+      if(oldEl) oldEl.classList.remove('selected');
+    }
+    selections[idx].push(letter);
+    el.classList.add('selected');
+  }
+  document.getElementById('submitBtn').disabled = selections[idx].length !== q.correct.length;
+  saveSession();
+}
+
+function selectMatch(idx, pairIndex, value){
+  if(answered[idx] || isSessionLocked()) return;
+  selections[idx][pairIndex] = value;
+  const allFilled = selections[idx].every(v=>v && v.length>0);
+  document.getElementById('submitBtn').disabled = !allFilled;
+  saveSession();
+}
+
+function submitAnswer(idx){
+  if(answered[idx] || isSessionLocked()) return;
+  const q = questions[idx];
+  answered[idx] = true;
+  let isCorrect = false;
+
+  if(q.type==='single'){
+    isCorrect = selections[idx][0] === q.correct[0];
+  } else if(q.type==='multi'){
+    const sel = selections[idx].slice().sort();
+    const cor = q.correct.slice().sort();
+    isCorrect = sel.length===cor.length && sel.every((v,i)=>v===cor[i]);
+  } else if(q.type==='match'){
+    isCorrect = q.pairs.every((p,pi)=>selections[idx][pi]===p.desc);
+  }
+
+  correctFlags[idx] = isCorrect;
+  if(isCorrect) score++;
+  document.getElementById('scoreLabel').textContent = score;
+  updateProgressBar();
+  lockOptions(idx);
+  renderFeedback(idx);
+  refreshJump();
+
+  const submitBtn = document.getElementById('submitBtn');
+  if(submitBtn){
+    if(idx < questions.length-1){
+      submitBtn.outerHTML = `<button class="btn-primary" onclick="goTo(${idx+1})">Next question →</button>`;
+    } else {
+      submitBtn.outerHTML = `<button class="btn-primary" onclick="finishTestNaturally()">Concluir teste</button>`;
+    }
+  }
+  saveSession();
+}
+
+function lockOptions(idx){
+  const q = questions[idx];
+  if(q.type==='single' || q.type==='multi'){
+    document.querySelectorAll('#quizArea .option').forEach(el=>{
+      el.classList.add('disabled');
+      el.onclick = null;
+      const letter = el.getAttribute('data-letter');
+      if(q.correct.includes(letter)) el.classList.add('correct');
+      else if(selections[idx] && selections[idx].includes(letter)) el.classList.add('incorrect');
+    });
+  } else if(q.type==='match'){
+    q.pairs.forEach((p,pi)=>{
+      const sel = document.getElementById(`sel-${idx}-${pi}`);
+      const row = document.getElementById(`row-${idx}-${pi}`);
+      if(sel){
+        sel.disabled = true;
+        row.classList.add(selections[idx][pi]===p.desc ? 'correct' : 'incorrect');
+      }
+    });
+  }
+}
+
+function renderFeedback(idx){
+  const q = questions[idx];
+  const isCorrect = correctFlags[idx];
+  let html = `<div class="feedback ${isCorrect?'right':'wrong'}">`;
+  html += `<div class="verdict ${isCorrect?'right-text':'wrong-text'}">${isCorrect ? '✓ Correct' : '✗ Not quite'}</div>`;
+  if(q.type!=='match'){
+    const correctText = q.options.filter(o=>q.correct.includes(o.l)).map(o=>o.l+'. '+o.t).join(' | ');
+    html += `<div><b>Correct answer:</b> ${escapeHtml(correctText)}</div>`;
+  }
+  if(q.explanation) html += `<div style="margin-top:8px;">${escapeHtml(q.explanation)}</div>`;
+  if(q.analogy) html += `<div class="analogy"><b>Think of it this way:</b> ${escapeHtml(q.analogy)}</div>`;
+  html += '</div>';
+  document.getElementById('feedbackArea').innerHTML = html;
+}
+
+function refreshJump(){
+  document.querySelectorAll('.jump button').forEach((btn,i)=>{
+    if(i===current) btn.className = 'current';
+    else if(answered[i]) btn.className = correctFlags[i] ? 'correct' : 'wrong';
+    else btn.className = '';
+  });
+}
+
+function goTo(idx){
+  if(isSessionLocked()) return;
+  current = idx;
+  renderQuestion(idx);
+  saveSession();
+}
+
+function escapeHtml(str){
+  if(!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+function escapeAttr(str){
+  return str.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+}
+
+window.addEventListener('pagehide', ()=>{
+  if(sessionState === 'running') saveSession();
+});
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState === 'hidden' && sessionState === 'running') saveSession();
+});
+
+initTheme();
+loadQuestions();
+</script>
+</body>
+</html>
